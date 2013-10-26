@@ -38,9 +38,4 @@ class tombooth::golang (
     target => "${install_path}/go/bin/gofmt",
   }
 
-  file { "/usr/local/bin/gohome":
-    ensure => $link_ensure,
-    target => "${install_path}/go/bin/gohome",
-  }
-
 }
