@@ -3,13 +3,12 @@ class tombooth::golang (
   $ensure = present,
 ) {
 
-  $version_regex = '^http[s]?.+go(.+)\.[linux|darwin|windows|freebsd]+-[amd64|386]+\.tar\.gz$'
+  $source_regex = '^http[s]?.+go.+\.[linux|darwin|windows|freebsd]+-[amd64|386]+\.tar\.gz$'
 
-  validate_re($source, $version_regex,
+  validate_re($source, $source_regex,
     'Please use a valid source url from https://code.google.com/p/go/downloads/list')
 
-  $version = regsubst($source, $version_regex, '\1')
-  $install_path = "/usr/local/go${version}"
+  $install_path = "/usr/local"
 
   archive { $version:
     ensure => $ensure,
@@ -24,22 +23,22 @@ class tombooth::golang (
     $link_ensure = $present
   }
 
-  file { "/usr/local/bin/go${version}":
+  file { "/usr/local/bin/go":
     ensure => $link_ensure,
     target => "${install_path}/go/bin/go",
   }
 
-  file { "/usr/local/bin/godoc${version}":
+  file { "/usr/local/bin/godoc":
     ensure => $link_ensure,
     target => "${install_path}/go/bin/godoc",
   }
 
-  file { "/usr/local/bin/gofmt${version}":
+  file { "/usr/local/bin/gofmt":
     ensure => $link_ensure,
     target => "${install_path}/go/bin/gofmt",
   }
 
-  file { "/usr/local/bin/gohome${version}":
+  file { "/usr/local/bin/gohome":
     ensure => $link_ensure,
     target => "${install_path}/go/bin/gohome",
   }
