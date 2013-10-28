@@ -1,0 +1,5 @@
+#!/bin/bash
+
+pushd <%= @cwd %> > /dev/null
+<%= @exec %> $@
+popd > /dev/null

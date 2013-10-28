@@ -1,25 +1,33 @@
 define tombooth::app (
-  $exec,
-  $description = "${name} app",
+  $services = {},
+  $bin = {},
+  $root = '/var/app',
+  $log_prefix = 'app-',
 ) {
 
+  validate_hash($services)
+  validate_hash($bin)
+
   tombooth::deployable { $name:
-    root => '/var/app',
-    log_prefix => 'app-',
+    root => $root,
+    log_prefix => $log_prefix,
   }
 
-  upstart::job { $name:
-    description => $description,
-    respawn => true,
-    respawn_limit => '5 10',
-    chdir => "/var/app/${name}/current",
-    exec => $exec
+  $deployed_dir = "${root}/${name}/current"
+  $log_dir = "${root}/${name}/logs"
+
+  $service_defaults = {
+    cwd => $deployed_dir,
+    log_dir => $log_dir,
   }
 
-  file { "/var/app/${name}/logs/upstart.log":
-    ensure => link,
-    target => "/var/log/upstart/${name}.log",
+  create_resources( 'tombooth::app::service', $services, $service_defaults )
+
+  $bin_defaults = {
+    cwd => $deployed_dir,
   }
+
+  create_resources( 'tombooth::app::bin', $bin, $bin_defaults )
 
 }
 

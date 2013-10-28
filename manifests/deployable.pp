@@ -12,8 +12,8 @@ define tombooth::deployable(
 
   $deployable_dir = "${root}/${name}"
 
-  file { $deployable_dir
-    ensure  => directory,
+  file { $deployable_dir:
+    ensure => directory,
   }
 
   file { "${deployable_dir}/logs":
@@ -33,7 +33,7 @@ define tombooth::deployable(
 
     file { "${deployable_dir}/current":
       ensure => link,
-      target => "${bin_dir}/source"
+      target => "${deployable_dir}/source"
     }
   }
 
