@@ -1,38 +1,11 @@
 define tombooth::app (
   $exec,
   $description = "${name} app",
-  $source_root = $::vm_source_root,
 ) {
 
-  if !defined(File['/var/app']) {
-    file { '/var/app':
-      ensure => directory,
-    }
-  }
-
-  file { "/var/app/${name}":
-    ensure  => directory,
-  }
-
-  file { "/var/app/${name}/logs":
-    ensure => directory,
-  }
-
-  file { "/var/log/app-${name}":
-    ensure => link,
-    target => "/var/app/${name}/logs",
-  }
-
-  if $source_root {
-    file { "/var/app/${name}/source":
-      ensure => link,
-      target => "${source_root}/${name}"
-    }
-
-    file { "/var/app/${name}/current":
-      ensure => link,
-      target => "/var/app/${name}/source"
-    }
+  tombooth::deployable { $name:
+    root => '/var/app',
+    log_prefix => 'app-',
   }
 
   upstart::job { $name:
