@@ -3,7 +3,7 @@ define tombooth::proxy_vhost (
   $upstream
 ) {
 
-  if is_array(upstream) {
+  if is_array($upstream) {
 
     nginx::resource::upstream { "${name}-upstream":
       ensure => present,
