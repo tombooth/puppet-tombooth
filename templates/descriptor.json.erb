@@ -1,3 +1,4 @@
 {
-  "services": [ <%= @services.keys.map { |k| '"' + k + '"' }.join(', ') %> ]
+  "services": [ <%= @services.keys.map { |k| '"' + k + '"' }.join(', ') %> ],
+  "post_deploy": [ <%= @post_deploy.map { |v| '"' + v + '"' }.join(', ') %> ]
 }

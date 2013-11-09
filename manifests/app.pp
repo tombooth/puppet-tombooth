@@ -1,12 +1,14 @@
 define tombooth::app (
   $services = {},
   $bin = {},
+  $post_deploy = [],
   $root = '/var/app',
   $log_prefix = 'app-',
 ) {
 
   validate_hash($services)
   validate_hash($bin)
+  validate_array($post_deploy)
 
   tombooth::deployable { $name:
     root => $root,
