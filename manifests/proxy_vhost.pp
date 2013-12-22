@@ -5,6 +5,10 @@ define tombooth::proxy_vhost (
   $vhost_cfg_append = undef,
   $auth_basic = undef,
   $auth_basic_user_file = undef,
+  $ssl = undef,
+  $ssl_cert = undef,
+  $ssl_key = undef,
+  $rewrite_to_https = undef,
 ) {
 
   if is_array($upstream) {
@@ -29,6 +33,10 @@ define tombooth::proxy_vhost (
     vhost_cfg_append     => $vhost_cfg_append,
     auth_basic           => $auth_basic,
     auth_basic_user_file => $auth_basic_user_file,
+    ssl                  => $ssl,
+    ssl_cert             => $ssl_cert,
+    ssl_key              => $ssl_key,
+    rewrite_to_https     => $rewrite_to_https,
   }
 
 }
