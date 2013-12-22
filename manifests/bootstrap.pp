@@ -10,6 +10,10 @@ class tombooth::bootstrap(
     stage => 'bootstrap',
   }
 
+  apt::ppa { 'ppa:tombooth/ppa':
+    before => Package['collectd'],
+  }
+
   group { $sudo_group: ensure => present }
 
   file { "/etc/sudoers.d/${sudo_group}":
@@ -31,12 +35,6 @@ class tombooth::bootstrap(
     }
   }
 
-  # Firewall rules
-  $ufw_rules = hiera_hash( 'ufw_rules', {} )
-  if !empty($ufw_rules) {
-    create_resources( 'ufw::allow', $ufw_rules )
-  }
-
   $apps = hiera_hash( 'apps', {} )
   if !empty($apps) {
     create_resources( 'tombooth::app', $apps )
@@ -45,6 +43,16 @@ class tombooth::bootstrap(
   $static_sites = hiera_hash( 'static_sites', {} )
   if !empty($static_sites) {
     create_resources( 'tombooth::static_site', $static_sites )
+  }
+
+  $ufw_rules = hiera_hash( 'ufw_rules', {} )
+  if !empty($ufw_rules) {
+    create_resources( 'ufw::allow', $ufw_rules )
+  }
+
+  $collectd_plugins = hiera_array( 'collectd_plugins', {} )
+  if !empty($collectd_plugins) {
+    collectd::plugin { $collectd_plugins: }
   }
 
   $proxy_vhosts = hiera_hash( 'proxy_vhosts', {} )
