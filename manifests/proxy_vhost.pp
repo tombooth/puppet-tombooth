@@ -3,6 +3,8 @@ define tombooth::proxy_vhost (
   $upstream,
   $vhost_cfg_prepend = undef,
   $vhost_cfg_append = undef,
+  $auth_basic = undef,
+  $auth_basic_user_file = undef,
 ) {
 
   if is_array($upstream) {
@@ -21,10 +23,12 @@ define tombooth::proxy_vhost (
   }
 
   nginx::resource::vhost { $name:
-    server_name       => $server_name,
-    proxy             => $proxy,
-    vhost_cfg_prepend => $vhost_cfg_prepend,
-    vhost_cfg_append  => $vhost_cfg_append,
+    server_name          => $server_name,
+    proxy                => $proxy,
+    vhost_cfg_prepend    => $vhost_cfg_prepend,
+    vhost_cfg_append     => $vhost_cfg_append,
+    auth_basic           => $auth_basic,
+    auth_basic_user_file => $auth_basic_user_file,
   }
 
 }
