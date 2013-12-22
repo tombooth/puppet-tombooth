@@ -10,9 +10,7 @@ class tombooth::bootstrap(
     stage => 'bootstrap',
   }
 
-  apt::ppa { 'ppa:tombooth/ppa':
-    before => Package['collectd'],
-  }
+  apt::ppa { 'ppa:tombooth/ppa': }
 
   group { $sudo_group: ensure => present }
 
