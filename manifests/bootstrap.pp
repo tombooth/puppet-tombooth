@@ -10,6 +10,10 @@ class tombooth::bootstrap(
     stage => 'bootstrap',
   }
 
+  class { 'tombooth::hosts':
+    stage => 'bootstrap',
+  }
+
   apt::ppa { 'ppa:tombooth/ppa': }
 
   group { $sudo_group: ensure => present }
@@ -20,7 +24,6 @@ class tombooth::bootstrap(
     content => "%${sudo_group} ALL=(ALL) NOPASSWD: ALL"
   }
 
-  # Set up accounts
   $accounts = hiera_hash( 'accounts', {} )
   if !empty($accounts) {
     create_resources( 'account', $accounts )
